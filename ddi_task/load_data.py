@@ -17,8 +17,8 @@ class InputFeatures(object):
         self.attention_mask = attention_mask
         self.token_type_ids = token_type_ids
         self.label_id = label_id
-        self.center_list = int_list
-        self.div_list = ent_list
+        self.int_list = int_list
+        self.ent_list = ent_list
         self.finger_print = finger_print
 
     def __repr__(self):
