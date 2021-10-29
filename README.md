@@ -29,7 +29,7 @@ To run the code, you need the following dependencies:
 * 2: "BERT + Interaction attention vector"  by --model  "bert_int"
 * 3: "BERT + Molecular"  by --model  "bert_mol"
 * 4: "BERT + Interaction attention vector + Molecular"  by --model   "bert_int_mol"
-* 5: "BERT + Interaction attention vector + Enities attention vector + Molecular"   by --model   "bert_int_ent_mol"
+* 5: "BERT + Interaction attention vector + Entities attention vector + Molecular"   by --model   "bert_int_ent_mol"
 # ddi_task
 * This folder contains our main code. 
 * load_data.py is used to prepare the data, we undersample and oversample the training set by default.
