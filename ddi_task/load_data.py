@@ -11,14 +11,14 @@ from scipy.stats import t as t_func
 
 class InputFeatures(object):
 
-    def __init__(self, input_ids, attention_mask, token_type_ids, label_id, center_list, div_list, finger_print,
+    def __init__(self, input_ids, attention_mask, token_type_ids, label_id, int_list, ent_list, finger_print,
                 ):
         self.input_ids = input_ids
         self.attention_mask = attention_mask
         self.token_type_ids = token_type_ids
         self.label_id = label_id
-        self.center_list = center_list
-        self.div_list = div_list
+        self.center_list = int_list
+        self.div_list = ent_list
         self.finger_print = finger_print
 
     def __repr__(self):
@@ -79,13 +79,13 @@ def makeFeatures(args,sent_list,sent_labels, mode):
         t = 0.1
         if len(enity_index) == 2:
             dis = (enity_index[1] - enity_index[0] + 1) / len(tokens)
-            center_list = [0] * (len(tokens))
+            int_list = [0] * (len(tokens))
             for i in range(len(tokens)):
-                center_list[i] = random.uniform(0.3-t*dis, 0.5+t*dis)
+                int_list[i] = random.uniform(0.3-t*dis, 0.5+t*dis)
             for i in range(enity_index[0], enity_index[1] + 1):
-                center_list[i] = random.uniform(0.9-t*dis, 1.1+t*dis)
+                int_list[i] = random.uniform(0.9-t*dis, 1.1+t*dis)
         else:
-            center_list = [1] * (len(tokens))
+            int_list = [1] * (len(tokens))
 
         input_ids = tokenizer.convert_tokens_to_ids(tokens)
 
@@ -98,10 +98,10 @@ def makeFeatures(args,sent_list,sent_labels, mode):
         input_ids = input_ids + ([0] * padding_length)
         attention_mask = attention_mask + ([0] * padding_length)
         token_type = token_type + ([0] * padding_length)
-        center_list = center_list +([0] * padding_length)
+        int_list = int_list +([0] * padding_length)
 
         # Vector for filling
-        pad_list = [1]*len(center_list)
+        pad_list = [1]*len(int_list)
 
         # use U_O_sampling
         if args.use_Under_sampling_and_over_sampling:
@@ -115,8 +115,8 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                       attention_mask=attention_mask,
                                       token_type_ids=token_type,
                                       label_id=label,
-                                      center_list=center_list,
-                                      div_list=pad_list,
+                                      int_list=center_list,
+                                      ent_list=pad_list,
                                       finger_print=index - 1
                                       ))
             # over_sampling operation
@@ -215,8 +215,8 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                   attention_mask=attention_mask,
                                   token_type_ids=token_type,
                                   label_id=label,
-                                  center_list=center_list,
-                                  div_list=pad_list,
+                                  int_list=center_list,
+                                  ent_list=pad_list,
                                   finger_print=index - 1
                                   ))
 
@@ -225,8 +225,8 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                   attention_mask=attention_mask,
                                   token_type_ids=token_type,
                                   label_id=label,
-                                  center_list=center_list,
-                                  div_list=chi2_list1,
+                                  int_list=center_list,
+                                  ent_list=chi2_list1,
                                   finger_print=index - 1
                                   ))
                 features.append(
@@ -234,8 +234,8 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                   attention_mask=attention_mask,
                                   token_type_ids=token_type,
                                   label_id=label,
-                                  center_list=center_list,
-                                  div_list=t_list1,
+                                  int_list=center_list,
+                                  ent_list=t_list1,
                                   finger_print=index - 1
                                   ))
                 # show examples
@@ -246,9 +246,9 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                     logging.info("attention_mask: %s", " ".join([str(x) for x in attention_mask]))
                     logging.info("token_type_ids: %s", " ".join([str(x) for x in token_type]))
                     logging.info("label: %d", label)
-                    logging.info("center_list: %s", " ".join([str(x) for x in center_list]))
-                    logging.info("diversified_list_for_Chi_distribution: %s", " ".join([str(x) for x in chi2_list1]))
-                    logging.info("diversified_list_for_T_distribution: %s", " ".join([str(x) for x in t_list1]))
+                    logging.info("interaction_list: %s", " ".join([str(x) for x in center_list]))
+                    logging.info("entities_attention_list_for_Chi_distribution: %s", " ".join([str(x) for x in chi2_list1]))
+                    logging.info("entities_attention_list_for_T_distribution: %s", " ".join([str(x) for x in t_list1]))
             # other data set
             else:
                 features.append(
@@ -256,8 +256,8 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                   attention_mask=attention_mask,
                                   token_type_ids=token_type,
                                   label_id=label,
-                                  center_list=center_list,
-                                  div_list=pad_list,
+                                  int_list=center_list,
+                                  ent_list=pad_list,
                                   finger_print=index - 1
                                   ))
                 if index < 4 :
@@ -267,8 +267,8 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                     logging.info("attention_mask: %s", " ".join([str(x) for x in attention_mask]))
                     logging.info("token_type_ids: %s", " ".join([str(x) for x in token_type]))
                     logging.info("label: %d", label)
-                    logging.info("center_list: %s", " ".join([str(x) for x in center_list]))
-                    logging.info("diversified_list: %s", " ".join([str(x) for x in pad_list]))
+                    logging.info("int_list: %s", " ".join([str(x) for x in center_list]))
+                    logging.info("ent_list: %s", " ".join([str(x) for x in pad_list]))
 
         # not use U_O_sampling
         else:
@@ -277,8 +277,8 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                               attention_mask=attention_mask,
                               token_type_ids=token_type,
                               label_id=label,
-                              center_list=center_list,
-                              div_list=pad_list,
+                              int_list=center_list,
+                              ent_list=pad_list,
                               finger_print=index - 1
                               ))
             if index < 4:
@@ -288,7 +288,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                 logging.info("attention_mask: %s", " ".join([str(x) for x in attention_mask]))
                 logging.info("token_type_ids: %s", " ".join([str(x) for x in token_type]))
                 logging.info("label: %d", label)
-                logging.info("center_list: %s", " ".join([str(x) for x in center_list]))
+                logging.info("int_list: %s", " ".join([str(x) for x in center_list]))
 
     return features
 
@@ -336,12 +336,12 @@ def load_and_cache_examples(args, mode):
     all_attention_mask = torch.tensor([f.attention_mask for f in features], dtype=torch.long)
     all_token_type_ids = torch.tensor([f.token_type_ids for f in features], dtype=torch.long)
     all_label_ids = torch.tensor([f.label_id for f in features], dtype=torch.long)
-    all_center_list = torch.tensor([f.center_list for f in features], dtype=torch.float)
-    all_div_list = torch.tensor([f.div_list for f in features], dtype=torch.float)
+    all_int_list = torch.tensor([f.int_list for f in features], dtype=torch.float)
+    all_ent_list = torch.tensor([f.ent_list for f in features], dtype=torch.float)
     fingerprint_indices = torch.tensor([f.finger_print for f in features], dtype=torch.long)
     dataset = TensorDataset(all_input_ids, all_attention_mask,all_token_type_ids, all_label_ids,
-                            all_center_list,
-                            all_div_list,
+                            all_int_list,
+                            all_ent_list,
                             fingerprint_indices
                             )
     return dataset
