@@ -1,6 +1,6 @@
 # IMSE:Interaction Information Attention and Molecular Structure Based Drug Drug Interaction Extraction
 * The 'model_architecture' picture shows the architecture of the proposed model. 
- ![image](model_architecture.png)
+ ![image](model_overview.png)
 
 * The 'Input_example' picture shows the input example of the model. 
  ![image](Input_example.png)
