@@ -142,11 +142,11 @@ class ddi_Bert(BertPreTrainedModel):
         if self.args.model == "only_bert":
             self.label_classifier = FCLayer(config.hidden_size, config.num_labels, args.dropout_rate, use_activation=False)
 
-        # use  BERT + Center vector
-        if self.args.model == "bert_center":
+        # use  BERT + Interaction attention vector
+        if self.args.model == "bert_int":
             self.label_classifier = FCLayer(config.hidden_size * 2, config.num_labels, args.dropout_rate, use_activation=False)
 
-        # use  BERT + Fingerprint
+        # use  BERT + molecular
         if self.args.model == "bert_mol":
             self.gnn = MolecularGraphNeuralNetwork(args, gnn_config.N_fingerprints, gnn_config.dim,
                                                    gnn_config.layer_hidden,
@@ -155,15 +155,15 @@ class ddi_Bert(BertPreTrainedModel):
                                             args.dropout_rate,
                                             use_activation=False)
 
-        # use  BERT + Center vector + Fingerprint
-        if self.args.model == "bert_center_mol":
+        # use  BERT + Interaction attention vector + molecular
+        if self.args.model == "bert_int_mol":
             self.gnn = MolecularGraphNeuralNetwork(args, gnn_config.N_fingerprints, gnn_config.dim, gnn_config.layer_hidden,
                                                    gnn_config.layer_output, gnn_config.mode, gnn_config.activation)
             self.label_classifier = FCLayer(config.hidden_size*2 + 2*gnn_config.dim, config.num_labels, args.dropout_rate,
                                             use_activation=False)
 
-        # use  BERT + Center vector + Diversified vector + Fingerprint
-        if self.args.model == "bert_center_div_mol":
+        # use  BERT + Interaction attention + Entities attention  + molecular
+        if self.args.model == "bert_int_ent_mol":
             self.gnn = MolecularGraphNeuralNetwork(args, gnn_config.N_fingerprints, gnn_config.dim,
                                                        gnn_config.layer_hidden,
                                                        gnn_config.layer_output, gnn_config.mode, gnn_config.activation)
@@ -182,8 +182,8 @@ class ddi_Bert(BertPreTrainedModel):
 
     def forward(self, input_ids, attention_mask, token_type_ids,
                 labels,
-                center_list,
-                div_list,
+                int_list,
+                ent_list,
                 fingerprint_index,
                 fingerprint_data,
                 ):
@@ -202,15 +202,15 @@ class ddi_Bert(BertPreTrainedModel):
             logits = self.label_classifier(pooled_output)
             outputs = (logits,) + outputs[2:]
 
-        # use BERT model and Center vector
-        if self.args.model == 'bert_center':
-            center = self.average(sequence_output, center_list)
-            center = self.fc_layer(center)
-            concat = torch.cat([center, pooled_output, ], dim=-1)
+        # use BERT model and Interaction vector
+        if self.args.model == 'bert_int':
+            int = self.average(sequence_output, int_list)
+            int = self.fc_layer(int)
+            concat = torch.cat([int, pooled_output, ], dim=-1)
             logits = self.label_classifier(concat)
             outputs = (logits,) + outputs[2:]
 
-        # use  BERT + Fingerprint
+        # use  BERT + Molecualr
         if self.args.model == "bert_mol":
             fingerprint = fingerprint_data[fingerprint_index.cpu()]
             if fingerprint.ndim == 3:
@@ -229,8 +229,8 @@ class ddi_Bert(BertPreTrainedModel):
             logits = self.label_classifier(concat)
             outputs = (logits,) + outputs[2:]
 
-        # use  BERT + Center vector + Mol_infromation
-        if self.args.model == "bert_center_mol":
+        # use  BERT + Intearction vector + Molecular
+        if self.args.model == "bert_int_mol":
                 fingerprint = fingerprint_data[fingerprint_index.cpu()]
                 if fingerprint.ndim == 3:
                     fingerprint1 = fingerprint[:, 0, ]
@@ -243,17 +243,17 @@ class ddi_Bert(BertPreTrainedModel):
                 gnn_output2 = self.gnn.gnn(fingerprint2)
                 gnn_output = torch.cat((gnn_output1, gnn_output2), -1)
 
-                center = self.average(sequence_output, center_list)
-                center = self.fc_layer(center)
+                int = self.average(sequence_output, int_list)
+                int = self.fc_layer(int)
 
-                concat = torch.cat((pooled_output, gnn_output, center), -1)
+                concat = torch.cat((pooled_output, gnn_output, int), -1)
 
                 logits = self.label_classifier(concat)
 
                 outputs = (logits,) + outputs[2:]
 
-        # use  BERT + center vector + diversified vector + fingerprint
-        if self.args.model == "bert_center_div_mol":
+        # use  BERT + Intearction attention + Entities attention +  Molecular
+        if self.args.model == "bert_int_ent_mol":
             fingerprint = fingerprint_data[fingerprint_index.cpu()]
             if fingerprint.ndim == 3:
                 fingerprint1 = fingerprint[:,0,]
@@ -266,13 +266,13 @@ class ddi_Bert(BertPreTrainedModel):
             gnn_output2 = self.gnn.gnn(fingerprint2)
             gnn_output = torch.cat((gnn_output1, gnn_output2), -1)
 
-            center = self.average(sequence_output, center_list)
-            center = self.fc_layer(center)
+            int = self.average(sequence_output, int_list)
+            int = self.fc_layer(int)
 
-            div = self.average(sequence_output, div_list)
-            div = self.fc_layer(div)
+            ent = self.average(sequence_output, ent_list)
+            ent = self.fc_layer(ent)
 
-            concat = torch.cat((pooled_output, center, div, gnn_output), -1)
+            concat = torch.cat((pooled_output, int, ent, gnn_output), -1)
 
             logits = self.label_classifier(concat)
 
