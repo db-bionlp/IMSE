@@ -26,10 +26,10 @@ To run the code, you need the following dependencies:
 * This file is the concrete structure of the model.
 * You can run the following models by setting the parameter --model in the run_re.sh file:
 * 1: "only_bert"  by --model "only_bert"
-* 2: "BERT + Center Vector"  by --model  "bert_center"
-* 3: "BERT + Fingerprint"  by --model  "bert_mol"
-* 4: "BERT + Center vector + Fingerprint"  by --model   "bert_center_mol"
-* 5: "BERT + Center vector + Diversified vector + Fingerprint"   by --model   "bert_center_div_mol"
+* 2: "BERT + Interaction attention vector"  by --model  "bert_int"
+* 3: "BERT + Molecular"  by --model  "bert_mol"
+* 4: "BERT + Interaction attention vector + Molecular"  by --model   "bert_int_mol"
+* 5: "BERT + Interaction attention vector + Enities attention vector + Molecular"   by --model   "bert_int_ent_mol"
 # ddi_task
 * This folder contains our main code. 
 * load_data.py is used to prepare the data, we undersample and oversample the training set by default.
