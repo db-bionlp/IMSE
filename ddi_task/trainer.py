@@ -158,8 +158,8 @@ class Trainer(object):
                           'attention_mask': batch[1],
                           'token_type_ids': batch[2],
                           'labels': batch[3],
-                          'center_list': batch[4],
-                          'div_list': batch[5],
+                          'int_list': batch[4],
+                          'ent_list': batch[5],
                           'fingerprint_index': batch[6],
                           'fingerprint_data': self.train_fingerprint,
                           }
@@ -244,8 +244,8 @@ class Trainer(object):
                           'attention_mask': batch[1],
                           'token_type_ids': batch[2],
                           'labels': batch[3],
-                          'center_list': batch[4],
-                          'div_list': batch[5],
+                          'int_list': batch[4],
+                          'ent_list': batch[5],
                           'fingerprint_index': batch[6],
                           'fingerprint_data': self.dev_fingerprint,
                           }
@@ -313,8 +313,8 @@ class Trainer(object):
                           'attention_mask': batch[1],
                           'token_type_ids': batch[2],
                           'labels': batch[3],
-                          'center_list': batch[4],
-                          'div_list' : batch[5],
+                          'int_list': batch[4],
+                          'ent_list' : batch[5],
                           'fingerprint_index': batch[6],
                           'fingerprint_data': self.test_fingerprint,
                           }
