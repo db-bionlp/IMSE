@@ -49,7 +49,7 @@ if __name__ == '__main__':
                         help="Model type selected in the list: " + ", ".join(MODEL_CLASSES.keys()))
 
     parser.add_argument("--model", type=str, required=True,
-                        help="which model to use: only_bert , bert_center, bert_center_mol, bert_center_div_mol")
+                        help="which model to use: only_bert , bert_int, bert_int_mol, bert_int_ent_mol")
 
     parser.add_argument("--do_train", action="store_true",  help="whether do train.")
 
