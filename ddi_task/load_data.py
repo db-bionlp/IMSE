@@ -115,7 +115,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                       attention_mask=attention_mask,
                                       token_type_ids=token_type,
                                       label_id=label,
-                                      int_list=center_list,
+                                      int_list=int_list,
                                       ent_list=pad_list,
                                       finger_print=index - 1
                                       ))
@@ -215,7 +215,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                   attention_mask=attention_mask,
                                   token_type_ids=token_type,
                                   label_id=label,
-                                  int_list=center_list,
+                                  int_list=int_list,
                                   ent_list=pad_list,
                                   finger_print=index - 1
                                   ))
@@ -225,7 +225,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                   attention_mask=attention_mask,
                                   token_type_ids=token_type,
                                   label_id=label,
-                                  int_list=center_list,
+                                  int_list=int_list,
                                   ent_list=chi2_list1,
                                   finger_print=index - 1
                                   ))
@@ -234,7 +234,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                   attention_mask=attention_mask,
                                   token_type_ids=token_type,
                                   label_id=label,
-                                  int_list=center_list,
+                                  int_list=int_list,
                                   ent_list=t_list1,
                                   finger_print=index - 1
                                   ))
@@ -256,7 +256,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                                   attention_mask=attention_mask,
                                   token_type_ids=token_type,
                                   label_id=label,
-                                  int_list=center_list,
+                                  int_list=int_list,
                                   ent_list=pad_list,
                                   finger_print=index - 1
                                   ))
@@ -277,7 +277,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                               attention_mask=attention_mask,
                               token_type_ids=token_type,
                               label_id=label,
-                              int_list=center_list,
+                              int_list=int_list,
                               ent_list=pad_list,
                               finger_print=index - 1
                               ))
