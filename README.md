@@ -3,7 +3,7 @@
  ![image](model_overview.png)
 
 * The 'Input_example' picture shows the input example of the model. 
- ![image](Input_example.png)
+ ![image](Input example.png)
 
 
 # Requirement
