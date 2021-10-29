@@ -1,4 +1,4 @@
-# Using Center Vector and Drug MolecularInformation for Drug Drug Interaction Extraction
+# IMSE:Interaction Information Attention and Molecular Structure Based Drug Drug Interaction Extraction
 * The 'model_architecture' picture shows the architecture of the proposed model. 
  ![image](model_architecture.png)
 
