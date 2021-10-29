@@ -5,13 +5,13 @@ python3 main_run.py \
   --fingerprint_dir ../dataset/fingerprint/fingerprint_file \
   --data_dir ../dataset/DDI_corpus  \
   --label_file ../dataset/DDI_corpus/label.csv  \
-  --model_dir ../saved_model/bert_center  \
-  --model bert_center \
+  --model_dir ../saved_model/bert_int  \
+  --model bert_int \
   --model_type biobert  \
   --per_gpu_train_batch_size=16  \
   --per_gpu_eval_batch_size=32  \
   --max_steps=-1  \
-  --num_train_epochs=5 \
+  --num_train_epochs=20 \
   --gradient_accumulation_steps=1  \
   --learning_rate=5e-5  \
   --logging_steps=250  \
