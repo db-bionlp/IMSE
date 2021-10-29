@@ -246,7 +246,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                     logging.info("attention_mask: %s", " ".join([str(x) for x in attention_mask]))
                     logging.info("token_type_ids: %s", " ".join([str(x) for x in token_type]))
                     logging.info("label: %d", label)
-                    logging.info("interaction_list: %s", " ".join([str(x) for x in center_list]))
+                    logging.info("interaction_list: %s", " ".join([str(x) for x in int_list]))
                     logging.info("entities_attention_list_for_Chi_distribution: %s", " ".join([str(x) for x in chi2_list1]))
                     logging.info("entities_attention_list_for_T_distribution: %s", " ".join([str(x) for x in t_list1]))
             # other data set
@@ -267,7 +267,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                     logging.info("attention_mask: %s", " ".join([str(x) for x in attention_mask]))
                     logging.info("token_type_ids: %s", " ".join([str(x) for x in token_type]))
                     logging.info("label: %d", label)
-                    logging.info("int_list: %s", " ".join([str(x) for x in center_list]))
+                    logging.info("int_list: %s", " ".join([str(x) for x in int_list]))
                     logging.info("ent_list: %s", " ".join([str(x) for x in pad_list]))
 
         # not use U_O_sampling
@@ -288,7 +288,7 @@ def makeFeatures(args,sent_list,sent_labels, mode):
                 logging.info("attention_mask: %s", " ".join([str(x) for x in attention_mask]))
                 logging.info("token_type_ids: %s", " ".join([str(x) for x in token_type]))
                 logging.info("label: %d", label)
-                logging.info("int_list: %s", " ".join([str(x) for x in center_list]))
+                logging.info("int_list: %s", " ".join([str(x) for x in int_list]))
 
     return features
 
